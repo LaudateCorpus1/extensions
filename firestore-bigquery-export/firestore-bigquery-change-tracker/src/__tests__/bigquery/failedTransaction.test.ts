@@ -48,5 +48,5 @@ describe("handleFailedTransactions", () => {
         }
       });
     });
-  });
+  }, 9000);
 });

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { Table } from "@google-cloud/bigquery";
 import { firestore } from "firebase-admin";
 import { logger } from "firebase-functions";
 
@@ -229,5 +230,11 @@ export const clusteringUpdate = (clustering) => {
     clustering
       ? `Clustering updated with new settings fields: ${clustering}`
       : `Clustering removed`
+  );
+};
+
+export const cannotPartitionExistingTable = (table: Table) => {
+  logger.warn(
+    `Cannot partition an exisiting table ${table.dataset.id}_${table.id}`
   );
 };

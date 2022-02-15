@@ -50,8 +50,7 @@ export function buildLatestSnapshotViewQuery(
       throw Error(`Found empty group by column!`);
     }
   }
-  const query = sqlFormatter.format(
-    ` -- Retrieves the latest document change events for all live documents.
+  const query = sqlFormatter.format(` -- Retrieves the latest document change events for all live documents.
     --   timestamp: The Firestore timestamp at which the event took place.
     --   operation: One of INSERT, UPDATE, DELETE, IMPORT.
     --   event_id: The id of the event that triggered the cloud function mirrored the event.
@@ -67,8 +66,7 @@ export function buildLatestSnapshotViewQuery(
         document_id,
         ${groupByColumns
           .map(
-            (columnName) =>
-              `FIRST_VALUE(${columnName})
+            (columnName) => `FIRST_VALUE(${columnName})
             OVER(PARTITION BY document_name ORDER BY ${timestampColumnName} DESC)
             AS ${columnName}`
           )
@@ -82,7 +80,6 @@ export function buildLatestSnapshotViewQuery(
     WHERE NOT is_deleted
     GROUP BY document_name, document_id${
       groupByColumns.length > 0 ? `, ` : ``
-    }${groupByColumns.join(",")}`
-  );
+    }${groupByColumns.join(",")}`);
   return query;
 }
